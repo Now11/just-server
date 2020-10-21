@@ -14,7 +14,6 @@ export class UserRepository extends Repository<User> {
 		if (!user) {
 			throw new Error('User not found');
 		}
-
 		return user;
 	}
 
