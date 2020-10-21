@@ -9,7 +9,7 @@ import { jwtSecret } from './jwt.config';
 import { UserRepository } from '../src/repositories';
 import { UserModel } from '../src/models/user.model';
 import { CustomError } from '../src/helpers/errorHandler.helper';
-import { HttpStatusCode } from '../src/constants/httpStatusCode.helper';
+import HttpStatusCode from '../src/constants/httpStatusCode.helper';
 
 passport.use(
 	'local',
