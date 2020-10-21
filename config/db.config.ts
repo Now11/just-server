@@ -12,7 +12,7 @@ export const createPostgreSQLConnection = async (): Promise<Connection> => {
 		logging: Boolean(process.env.TYPEORM_LOGGING),
 		entities: [process.env.TYPEORM_ENTITIES],
 		migrations: [process.env.TYPEORM_MIGRATIONS],
-		synchronize: Boolean(process.env.TYPEORM_SYNCHRONIZE),
+		synchronize: false,
 	});
 
 	return connection;

@@ -5,8 +5,7 @@
     "scripts": {
         "server": "nodemon -r ts-node server.ts",
         "add-migration": "ts-node node_modules/typeorm/cli.js migration:generate -n",
-        "add-seed": "ts-node node_modules/typeorm/cli.js migration:create -d src/data/seeders -n",
-        "seed": "ts-node node_modules/typeorm/cli.js migration:run",
+        "migrations": "ts-node node_modules/typeorm/cli.js migration:run",
         "drop": "ts-node node_modules/typeorm/cli.js schema:drop",
         "orm": "ts-node node_modules/typeorm/cli.js"
     },
