@@ -13,7 +13,7 @@ pipeline {
       }
     }
 
-    stage('deploya') {
+    stage('deploy') {
       steps {
         echo 'deployed'
       }
