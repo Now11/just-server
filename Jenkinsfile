@@ -20,7 +20,13 @@ pipeline {
             }
 
         }
-    
+
+        stage('check') {
+            steps {
+                sh 'docker ps'
+            }
+        }   
+
         stage('Build') {
             agent { 
                 dockerfile { 
@@ -28,7 +34,6 @@ pipeline {
                 } 
             }
             steps {
-                sh 'docker ps'
                 echo 'installid server'
                 sh 'node --version'
                 sh 'npm --version'
