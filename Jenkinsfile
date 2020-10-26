@@ -5,18 +5,24 @@ pipeline {
       steps {
         sh 'node --version'
         sh 'npm --version'
+        sleep(time: 5, unit: "SECONDS")
       }
     }
 
-    stage('Test') {
+    stage('Build') {
       steps {
-        echo 'tests complete'
+        echo 'Building . . .'
+        sh 'npm install'
+        sleep(time: 5, unit: "SECONDS")
+        sh 'npm run server'
+        sleep(time: 5, unit: "SECONDS")
       }
     }
 
-    stage('deploy') {
+    stage('Tests') {
       steps {
-        echo 'deployed'
+        echo 'Start testing . . .'
+        sh 'npm run tests'
       }
     }
 
