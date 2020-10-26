@@ -1,9 +1,10 @@
 pipeline {
-  agent any
+  agent { docker { image 'node:12.18.0-alpine' } }
   stages {
-    stage('Build') {
+    stage('Setup env') {
       steps {
-        echo 'build complete'
+        sh 'node --version'
+        sh 'npm --version'
       }
     }
 
