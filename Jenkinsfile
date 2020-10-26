@@ -12,19 +12,20 @@ pipeline {
                     docker.image('postgres:lts').withRun('"-e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres" -p 5423:5432 --name postgres') { c ->
 						echo 'PostgreSQL sterted'
                     }
+                    timeout(5) {
+				        echo 'timeout . . .'
+			        }
                 }
-                timeout(5) {
-				    echo 'timeout . . .'
-			    }
+               
             }
 
         }
     
         stage('Build') {
-            agent {
-                dockerfile {
-                    filename: './pipeline.dockerfile'
-                }
+            agent { 
+                dockerfile { 
+                    filename './pipeline.dockerfile' 
+                } 
             }
             steps {
                 echo 'installid server'
@@ -32,10 +33,11 @@ pipeline {
                 sh 'npm --version'
                 sh 'npm install'
                 sh 'npm run server'
+                timeout(5) {
+				    echo 'timeout . . .'
+			    }
             }
-            timeout(5) {
-				echo 'timeout . . .'
-			}
+            
         }
     }
     post {
