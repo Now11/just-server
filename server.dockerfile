@@ -5,8 +5,7 @@ WORKDIR /f
 COPY . .
 
 RUN npm install
-RUN npm run server
 
 EXPOSE 3001
 
-CMD ["npm", "run", "tests"]
+CMD ["npm", "run", "server"]
