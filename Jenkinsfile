@@ -19,16 +19,17 @@ pipeline {
                 echo 'Building . . .'
                 sh 'npm install'
                 sleep(time: 5, unit: "SECONDS")
-                sh 'npm run server'
-                sleep(time: 5, unit: "SECONDS")
             }
         }
 
         stage('Tests') {
             steps {
-                echo 'Start testing . . .'
-                sh 'npm run tests'
+                echo 'Connecting to postgreSQL . . .'
+                def postgresHost = sh(returnStdout: true, script: "docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${c.id}").trim()
+                echo "PostgreSQL container IP address: ${postgresHost}"
+                //sh 'npm run tests'
             }
+
         }
     }
 
