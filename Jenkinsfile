@@ -25,6 +25,7 @@ pipeline {
         stage('Tests') {
             steps {
                 echo 'Testing . . .'
+                sh 'npm run server'
                 //sh 'npm run tests'
             }
         }
