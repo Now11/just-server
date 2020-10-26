@@ -11,7 +11,9 @@ pipeline {
                 sh 'node --version'
                 sh 'npm --version'
                 script {
-                    docker.image('postgres:lts').withRun('-e "-e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres" -p 5423:5432')
+                    docker.image('postgres:lts').withRun('"-e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres" -p 5423:5432') { c ->
+						echo 'PostgreSQL sterted'
+                    }
                     sleep(time: 5, unit: "SECONDS")
                 }
             }
