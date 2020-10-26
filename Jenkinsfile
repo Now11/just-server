@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'node:12.18.0-alpine' } }
+    agent any
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '2'))
