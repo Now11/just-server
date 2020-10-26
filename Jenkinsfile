@@ -1,5 +1,11 @@
 pipeline {
   agent { docker { image 'node:12.18.0-alpine' } }
+
+   options {
+    buildDiscarder(logRotator(numToKeepStr: '2'))
+  }
+
+
   stages {
     stage('Setup env') {
       steps {
@@ -23,6 +29,12 @@ pipeline {
       steps {
         echo 'Start testing . . .'
         sh 'npm run tests'
+      }
+    }
+
+    post {
+      always {
+        deleteDir()
       }
     }
 
