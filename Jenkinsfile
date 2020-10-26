@@ -11,6 +11,10 @@ pipeline {
                 script {
                     docker.image('postgres').withRun('"-e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres" -p 5423:5432 --name postgres') { c ->
 						echo 'PostgreSQL sterted'
+                        def postgresHost = sh(returnStdout: true, script: "docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${c.id}").trim()
+						echo "PostgreSQL container IP address: ${postgresHost}"
+
+                        
                     }
                     timeout(5) {
 				        echo 'timeout . . .'
@@ -46,9 +50,9 @@ pipeline {
             
         }
     }
-    post {
-        always {
-            deleteDir()
-        }
-    }
+    // post {
+    //     always {
+    //         deleteDir()
+    //     }
+    // }
 }
