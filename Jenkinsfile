@@ -5,7 +5,6 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '2'))
     }
 
-
     stages {
         stage('Setup env') {
             steps {
@@ -14,22 +13,22 @@ pipeline {
                 sleep(time: 5, unit: "SECONDS")
             }
         }
-    }
-
-    stage('Build') {
-        steps {
-            echo 'Building . . .'
-            sh 'npm install'
-            sleep(time: 5, unit: "SECONDS")
-            sh 'npm run server'
-            sleep(time: 5, unit: "SECONDS")
+    
+        stage('Build') {
+            steps {
+                echo 'Building . . .'
+                sh 'npm install'
+                sleep(time: 5, unit: "SECONDS")
+                sh 'npm run server'
+                sleep(time: 5, unit: "SECONDS")
+            }
         }
-    }
 
-    stage('Tests') {
-        steps {
-            echo 'Start testing . . .'
-            sh 'npm run tests'
+        stage('Tests') {
+            steps {
+                echo 'Start testing . . .'
+                sh 'npm run tests'
+            }
         }
     }
 
