@@ -12,6 +12,7 @@ pipeline {
 				echo 'PostgreSQL sterted'
                 def postgresHost = sh(returnStdout: true, script: "docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${c.id}").trim()
 				echo "PostgreSQL container IP address: ${postgresHost}"
+                }
                 timeout(5) {
 				    echo 'timeout . . .'
 			    }
