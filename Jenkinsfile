@@ -28,6 +28,7 @@ pipeline {
                 } 
             }
             steps {
+                sh 'docker ps'
                 echo 'installid server'
                 sh 'node --version'
                 sh 'npm --version'
