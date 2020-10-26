@@ -24,9 +24,6 @@ pipeline {
 
         stage('Tests') {
             steps {
-                echo 'Connecting to postgreSQL . . .'
-                def postgresHost = sh(returnStdout: true, script: "docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${c.id}").trim()
-                echo "PostgreSQL container IP address: ${postgresHost}"
                 //sh 'npm run tests'
             }
 
