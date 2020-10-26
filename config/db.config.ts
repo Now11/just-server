@@ -14,7 +14,7 @@ export const createPostgreSQLConnection = async (): Promise<Connection> => {
 	//     migrations: [process.env.TYPEORM_MIGRATIONS],
 	//     synchronize: false,
 	// });
-	const c = await createConnection('postgres://postgres:postgres@pg:5432/test');
+	const c = await createConnection({ url: 'postgres://postgres:postgres@pg:5432/test', type: 'postgres' });
 
 	return c;
 };
