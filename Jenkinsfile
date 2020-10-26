@@ -9,7 +9,7 @@ pipeline {
         stage('Setup env') {
             steps {
 
-                sh 'docker run -d --name pg -p 5423:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres'
+                sh 'docker run -d --name pg1 -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres'
 
                  timeout(5) {
 				    echo 'timeout . . .'
