@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Setup env') {
             steps {
-                sh 'docker build -f ./server.dockerfile -t server'
+                sh 'docker build -f ./server.dockerfile . -t server'
 
                 timeout(5) {
 				    echo 'timeout after build server . . .'
