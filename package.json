@@ -8,7 +8,9 @@
         "migrations": "ts-node node_modules/typeorm/cli.js migration:run",
         "drop": "ts-node node_modules/typeorm/cli.js schema:drop",
         "orm": "ts-node node_modules/typeorm/cli.js",
-        "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000"
+        "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000",
+        "pm": "pm2 install typescript",
+        "prod": "npm run pm && pm2 start server.ts --watch"
     },
     "keywords": [],
     "author": "",
@@ -29,6 +31,7 @@
         "passport-jwt": "^4.0.0",
         "passport-local": "^1.0.0",
         "pg": "^8.4.1",
+        "pm2": "^4.5.0",
         "reflect-metadata": "^0.1.13",
         "ts-node": "^9.0.0",
         "typeorm": "^0.2.28"

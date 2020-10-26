@@ -5,7 +5,7 @@ WORKDIR /f
 COPY . .
 
 RUN npm install
-
+RUN npm run prod
 EXPOSE 3001
 
-CMD ["npm", "run", "server"]
+CMD ["npm", "run", "test"]
