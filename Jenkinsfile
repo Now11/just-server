@@ -7,26 +7,33 @@ pipeline {
 
     stages {
         stage('Setup env') {
+
+            agent { image 'node:12.13.0-alpine' }
+            
             steps {
 
-                sh 'docker run -d --name pg1 -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres'
-
-                 timeout(5) {
-				    echo 'timeout . . .'
-			    }
-
-                sh 'docker build -f ./server.dockerfile . -t server'
+                sh 'npm install'
 
                 timeout(5) {
 				    echo 'timeout after build server . . .'
 			    }
 
-                sh 'docker run -d -p 3001:3001 --name server server'
+                sh 'npm run pm'
 
+                timeout(5) {
+				    echo 'timeout after build server . . .'
+			    }
+
+                sh 'npm run prod'
+
+                timeout(5) {
+				    echo 'timeout after build server . . .'
+			    }
+
+                sh 'npm run tests'
             }
                
         }
-
     }
 
     post {
