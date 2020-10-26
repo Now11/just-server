@@ -15,7 +15,9 @@ pipeline {
 						echo "PostgreSQL container IP address: ${postgresHost}"
                     }
 
-                    def testImage = docker.build('server','./test.dockerfile')
+                    sh 'mkdir empty_context'
+                    
+                    def testImage = docker.build('server','./test.dockerfile', 'empty_context')
                     testImage.inside {
                         echo 'test staring . . .'
                     }
