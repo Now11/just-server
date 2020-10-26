@@ -10,8 +10,10 @@ pipeline {
             steps {
                 sh 'node --version'
                 sh 'npm --version'
-                docker.image('postgres:lts').withRun('-e "-e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres" -p 5423:5432')
-                sleep(time: 5, unit: "SECONDS")
+                script {
+                    docker.image('postgres:lts').withRun('-e "-e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=test postgres" -p 5423:5432')
+                    sleep(time: 5, unit: "SECONDS")
+                }
             }
         }
     
