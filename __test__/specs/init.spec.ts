@@ -11,6 +11,7 @@ describe('suite', () => {
 		});
 		console.log(responseBody);
 	});
+
 	it('test #1', async () => {
 		const { responseBody, statusCode }: Response<UserModel> = await request({
 			url: 'http://localhost:3001',
