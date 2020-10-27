@@ -3,14 +3,15 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-        "server": "nodemon -r ts-node server.ts",
+        "server": "ENV=TEST nodemon -r ts-node server.ts",
         "add-migration": "ts-node node_modules/typeorm/cli.js migration:generate -n",
         "migrations": "ts-node node_modules/typeorm/cli.js migration:run",
         "drop": "ts-node node_modules/typeorm/cli.js schema:drop",
         "orm": "ts-node node_modules/typeorm/cli.js",
         "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000",
         "pm": "pm2 install typescript",
-        "prod": "ENV=TEST pm2 start server.ts"
+        "prod": "ENV=TEST pm2 start server.ts --watch",
+        "q": "npm run server && npm run tests"
     },
     "keywords": [],
     "author": "",
