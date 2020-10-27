@@ -3,6 +3,14 @@ import { request, Response } from '../lib';
 import { UserModel } from '../models';
 
 describe('suite', () => {
+	it('test', async () => {
+		const { responseBody }: Response<UserModel> = await request({
+			url: 'http://localhost:3001',
+			path: '',
+			method: 'GET',
+		});
+		console.log(responseBody);
+	});
 	it('test #1', async () => {
 		const { responseBody, statusCode }: Response<UserModel> = await request({
 			url: 'http://localhost:3001',
