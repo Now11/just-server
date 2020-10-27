@@ -19,13 +19,13 @@ pipeline {
                 sh 'npm install'
 
                 timeout(5) {
-				    echo 'timeout after build server . . .'
+				    echo 'timeout after installing dependencies . . .'
 			    }
 
                 sh 'ENV=TEST npm run all'
 
                 timeout(5) {
-				    echo 'timeout after build server . . .'
+				    echo 'timeout after tests . . .'
 			    }
             }
                
