@@ -9,8 +9,8 @@
         "drop": "ts-node node_modules/typeorm/cli.js schema:drop",
         "orm": "ts-node node_modules/typeorm/cli.js",
         "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000",
-        "wait": "wait-on http-get://localhost:3001 && npm run tests",
-        "prod": "pm2 install typescript && pm2 ts-node start server.ts",
+        "wait": "wait-on http-get://localhost:3001 && npm run tests && pm2 stop server",
+        "prod": "pm2 install typescript && pm2 start server.ts --name server",
         "all": "concurrently 'npm:prod' 'npm:wait'"
     },
     "keywords": [],
