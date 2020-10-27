@@ -28,7 +28,7 @@ pipeline {
 				    echo 'timeout after build server . . .'
 			    }
 
-                sh 'npm run prod'
+                sh 'ENVIRONMENT=PROD pm run prod'
 
                 timeout(5) {
 				    echo 'timeout after build server . . .'
