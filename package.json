@@ -10,7 +10,7 @@
         "orm": "ts-node node_modules/typeorm/cli.js",
         "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000",
         "pm": "pm2 install typescript",
-        "prod": "npm run pm && pm2 start server.ts --watch"
+        "prod": "ENV=TEST pm2 start server.ts --watch"
     },
     "keywords": [],
     "author": "",
