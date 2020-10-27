@@ -4,7 +4,8 @@ import { Connection, createConnection } from 'typeorm';
 export const createPostgreSQLConnection = async (): Promise<Connection> => {
 	const connection = await createConnection({
 		type: process.env.TYPEORM_CONNECTION as any,
-		host: process.env.ENVIRONMENT === 'TEST' ? 'host.docker.internal' : process.env.TYPEORM_HOST,
+		// host: process.env.ENV === 'TEST' ? 'host.docker.internal' : process.env.TYPEORM_HOST,
+		host: 'host.docker.internal',
 		port: process.env.TYPEORM_PORT as any,
 		username: process.env.TYPEORM_USERNAME,
 		password: process.env.TYPEORM_PASSWORD,
