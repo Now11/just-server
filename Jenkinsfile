@@ -8,7 +8,11 @@ pipeline {
     stages {
         stage('Setup env') {
 
-            agent { image 'node:12.13.0-alpine' }
+            agent { 
+                docker { 
+                    image 'node:12.13.0-alpine' 
+                }
+            }
             
             steps {
 
