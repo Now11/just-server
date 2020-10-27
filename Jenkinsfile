@@ -28,7 +28,7 @@ pipeline {
 				    echo 'timeout after build server . . .'
 			    }
 
-                sh 'pm run prod'
+                sh 'npm run prod'
 
                 timeout(5) {
 				    echo 'timeout after build server . . .'
