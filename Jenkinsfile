@@ -22,19 +22,11 @@ pipeline {
 				    echo 'timeout after build server . . .'
 			    }
 
-                sh 'npm run q'
+                sh 'ENV=TEST npm run all'
 
-                // timeout(5) {
-				//     echo 'timeout after build server . . .'
-			    // }
-
-                // sh 'npm run prod'
-
-                // timeout(5) {
-				//     echo 'timeout after build server . . .'
-			    // }
-
-                // sh 'npm run tests'
+                timeout(5) {
+				    echo 'timeout after build server . . .'
+			    }
             }
                
         }
