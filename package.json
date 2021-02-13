@@ -11,8 +11,7 @@
         "seed": "node_modules/.bin/ts-node src/data/seeders",
         "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000"
     },
-    "keywords": [],
-    "author": "",
+    "author": "lightnow22@gmail.com",
     "license": "ISC",
     "dependencies": {
         "bcryptjs": "^2.4.3",

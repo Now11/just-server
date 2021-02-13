@@ -8,35 +8,37 @@ import { authErrorMessages } from '../common/constants';
 import { passwordValid, hashPassword, CustomError } from '../common/helpers';
 import { jwtSecret } from './jwt.config';
 import { UserRepository } from '../data/repositories';
-import { IUser } from '../common/models/IUser';
 
 passport.use(
-	'local',
+	'login',
 	new LocalStrategy(
 		{
-			usernameField: UserKeys.EMAIL_FIELD,
+			usernameField: UserKeys.EMAIL_FIELD
 		},
 		async (email: string, password: string, next): Promise<void> => {
-			const userRepository = getCustomRepository(UserRepository);
-			const user = await userRepository.getByEmail(email);
+			try {
+				const userRepository = getCustomRepository(UserRepository);
+				const user = await userRepository.getByEmail(email);
+				if (!user) {
+					return next(
+						new CustomError(HttpStatusCode.BAD_REQUEST, authErrorMessages.INCORRECT_CREDENTIALS),
+						null
+					);
+				}
 
-			if (!user) {
-				return next(
-					new CustomError(HttpStatusCode.UNAUTHORIZED, authErrorMessages.INCORRECT_CREDENTIALS),
-					null,
-				);
+				if (user.password && !passwordValid(password, user.password)) {
+					return next(
+						new CustomError(HttpStatusCode.BAD_REQUEST, authErrorMessages.INCORRECT_CREDENTIALS),
+						null
+					);
+				}
+
+				return next(null, user);
+			} catch (error) {
+				return next(error);
 			}
-
-			if (user.password && !passwordValid(password, user.password)) {
-				return next(
-					new CustomError(HttpStatusCode.UNAUTHORIZED, authErrorMessages.INCORRECT_CREDENTIALS),
-					null,
-				);
-			}
-
-			return next(null, user);
-		},
-	),
+		}
+	)
 );
 
 passport.use(
@@ -44,62 +46,68 @@ passport.use(
 	new LocalStrategy(
 		{
 			usernameField: UserKeys.EMAIL_FIELD,
-			passReqToCallback: true,
+			passReqToCallback: true
 		},
 		// eslint-disable-next-line consistent-return
 		async (req, email: string, password: string, next): Promise<void> => {
-			const userRepository = getCustomRepository(UserRepository);
-			const checkUser = await userRepository.getByEmail(email);
+			try {
+				const userRepository = getCustomRepository(UserRepository);
+				const user = await userRepository.getByEmail(email);
 
-			if (checkUser) {
-				return next(new CustomError(HttpStatusCode.UNAUTHORIZED, authErrorMessages.TAKEN_EMAIL), null);
+				if (!user) {
+					return next(new CustomError(HttpStatusCode.BAD_REQUEST, authErrorMessages.TAKEN_EMAIL), null);
+				}
+
+				const { firstName, lastName } = req.body;
+				const isValidEntity = await validateUser({ email, password, firstName, lastName }, next);
+
+				if (isValidEntity) {
+					const encodedPassword = hashPassword(password);
+
+					const newUserObject = await userRepository.createItem({
+						...req.body,
+						email,
+						password: encodedPassword
+					});
+					return next(null, newUserObject);
+				}
+			} catch (error) {
+				return next(error);
 			}
-
-			const { firstName, lastName } = req.body;
-			const isValidEntity = await validateUser({ email, password, firstName, lastName }, next);
-
-			if (isValidEntity) {
-				const encodedPassword = hashPassword(password);
-
-				const newUserObject = await userRepository.createItem({
-					...req.body,
-					email,
-					password: encodedPassword,
-				});
-				return next(null, newUserObject);
-			}
-		},
-	),
+		}
+	)
 );
 
+const opts = {
+	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+	secretOrKey: jwtSecret
+};
 passport.use(
 	'jwt',
 	new JwtStrategy(
-		{
-			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			secretOrKey: jwtSecret,
-		},
+		opts,
 		async ({ id }: { id: string }, next): Promise<void> => {
 			try {
 				const userRepository = getCustomRepository(UserRepository);
 				const user = await userRepository.getById(id);
-
-				return next(null, user);
+				return user
+					? next(null, user)
+					: next(new CustomError(HttpStatusCode.UNAUTHORIZED, authErrorMessages.INVALID_TOKEN), null);
 			} catch (error) {
-				return next(new CustomError(HttpStatusCode.UNAUTHORIZED, authErrorMessages.NO_USER), null);
+				return next(error);
 			}
-		},
-	),
+		}
+	)
 );
-
-passport.serializeUser((user: IUser, next) => {
-	next(null, { id: user.id });
+/* eslint-disalbe ban-ts-comment @ts-ignore
+ passport.serializeUser((user: IUser, next) => {
+ next(null, { id: user.id });
 });
 
 passport.deserializeUser(async (id: string, next) => {
-	const userRepository = getCustomRepository(UserRepository);
-	const user = await userRepository.getById(id);
-	next(null, user);
-});
-
+const userRepository = getCustomRepository(UserRepository);
+ const user = await userRepository.getById(id);
+ next(null, user);
+ });
+*/
 export default passport;

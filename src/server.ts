@@ -1,11 +1,12 @@
 import { env } from './env';
-import { getConnecion } from './db';
+import { getConnection } from './db';
 import app from './app';
 
 const { port } = env.app;
 
-getConnecion().then(() => {
+getConnection().then(() => {
 	app.listen(port, () => {
+		// eslint-disable-next-line no-console
 		console.log(`Server is running at ${port}`);
 	});
 });

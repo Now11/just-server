@@ -7,4 +7,5 @@ export const authErrorMessages = {
 	INVALID_FIRST_NAME: 'First name is not valid',
 	INVALID_LAST_NAME: 'Last name is not valid',
 	UPROCESSABLE_DATA: 'Server cannot process data',
+	INVALID_TOKEN: 'Token is invalid'
 };
