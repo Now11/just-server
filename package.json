@@ -1,17 +1,15 @@
 {
     "name": "just-server",
     "version": "1.0.0",
-    "main": "server.js",
+    "main": "./src/server.ts",
     "scripts": {
-        "server": "nodemon -r ts-node server.ts",
-        "add-migration": "ts-node node_modules/typeorm/cli.js migration:generate -n",
-        "migrations": "ts-node node_modules/typeorm/cli.js migration:run",
-        "drop": "ts-node node_modules/typeorm/cli.js schema:drop",
-        "orm": "ts-node node_modules/typeorm/cli.js",
-        "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000",
-        "wait": "wait-on http-get://localhost:3001 && npm run tests && pm2 stop server",
-        "prod": "pm2 install typescript && pm2 start server.ts --name server",
-        "all": "concurrently 'npm:prod' 'npm:wait'"
+        "start": "nodemon -r ts-node --files ./src/server.ts",
+        "add-migration": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:generate -n",
+        "migrations": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:run",
+        "drop": "node_modules/.bin/ts-node node_modules/typeorm/cli.js schema:drop",
+        "typeorm": "node_modules/.bin/ts-node node_modules/typeorm/cli.js",
+        "seed": "node_modules/.bin/ts-node src/data/seeders",
+        "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000"
     },
     "keywords": [],
     "author": "",
