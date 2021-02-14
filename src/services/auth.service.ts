@@ -1,11 +1,26 @@
-import { Request, Response } from 'express';
-import { generateToken } from '../common/helpers';
+import { getCustomRepository } from 'typeorm';
+import { generateToken, hashPassword } from '../common/helpers';
+import { IAuthUser, ICreateUser } from '../common/models';
+import { UserRepository } from '../data/repositories';
 
 class AuthService {
-	login(req: Request, res: Response) {
-		const { id, createdAt, updatedAt, password, ...data }: any = req.user;
-		const accessToken = generateToken(id);
-		res.send({ id, ...data, accessToken });
+	async login(data: IAuthUser) {
+		const accessToken = generateToken(data.id);
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { password, createdAt, updatedAt, ...user } = data;
+		return { accessToken, user };
+	}
+
+	async register(data: ICreateUser) {
+		const { password, ...user } = data;
+		const userRepository = getCustomRepository(UserRepository);
+
+		await userRepository.createItem({
+			...user,
+			password: hashPassword(password)
+		});
+
+		return { user };
 	}
 }
 

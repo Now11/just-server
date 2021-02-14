@@ -5,7 +5,7 @@ import { getCustomRepository } from 'typeorm';
 import { validateUser } from '../validators/userProfile.validator';
 import { UserKeys, HttpStatusCode } from '../common/enums';
 import { authErrorMessages } from '../common/constants';
-import { passwordValid, hashPassword, CustomError } from '../common/helpers';
+import { passwordValid, CustomError } from '../common/helpers';
 import { jwtSecret } from './jwt.config';
 import { UserRepository } from '../data/repositories';
 
@@ -32,7 +32,6 @@ passport.use(
 						null
 					);
 				}
-
 				return next(null, user);
 			} catch (error) {
 				return next(error);
@@ -49,27 +48,18 @@ passport.use(
 			passReqToCallback: true
 		},
 		// eslint-disable-next-line consistent-return
-		async (req, email: string, password: string, next): Promise<void> => {
+		async ({ body: { firstName, lastName } }, email, password, next): Promise<void> => {
 			try {
 				const userRepository = getCustomRepository(UserRepository);
 				const user = await userRepository.getByEmail(email);
 
-				if (!user) {
+				if (user) {
 					return next(new CustomError(HttpStatusCode.BAD_REQUEST, authErrorMessages.TAKEN_EMAIL), null);
 				}
 
-				const { firstName, lastName } = req.body;
 				const isValidEntity = await validateUser({ email, password, firstName, lastName }, next);
-
 				if (isValidEntity) {
-					const encodedPassword = hashPassword(password);
-
-					const newUserObject = await userRepository.createItem({
-						...req.body,
-						email,
-						password: encodedPassword
-					});
-					return next(null, newUserObject);
+					return next(null, { email, firstName, lastName, password });
 				}
 			} catch (error) {
 				return next(error);
@@ -82,6 +72,7 @@ const opts = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: jwtSecret
 };
+
 passport.use(
 	'jwt',
 	new JwtStrategy(

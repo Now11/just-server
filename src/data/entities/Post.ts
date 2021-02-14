@@ -1,7 +1,7 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 import { MinLength, IsNotEmpty } from 'class-validator';
 import { AbstractEntity } from '../abstract/AbstractEntity';
-import { User } from './User';
+// import { User } from './User';
 
 @Entity()
 export class Post extends AbstractEntity {
@@ -17,7 +17,7 @@ export class Post extends AbstractEntity {
 	@IsNotEmpty()
 	isPrivate: boolean;
 
-	@ManyToOne(() => User, (user) => user.posts)
-	@JoinColumn({ name: 'ownerId' })
-	owner: User;
+	// @ManyToOne(() => User, (user) => user.posts)
+	// @JoinColumn({ name: 'ownerId' })
+	// owner: User;
 }

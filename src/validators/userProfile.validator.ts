@@ -11,39 +11,37 @@ interface ValidateUser {
 	>;
 }
 
-// eslint-disable-next-line consistent-return
 export const validateUser: ValidateUser = async (data, next) => {
 	const userInstance = Object.assign(new User(), data);
-
 	const errorsArray = await validate(userInstance);
 	const errors = errorsArray.length > 0;
 	if (errors) {
-		errorsArray.forEach((error) => {
+		errorsArray.forEach(error => {
 			switch (error.property) {
 				case UserKeys.EMAIL_FIELD:
 					return next(
 						new CustomError(HttpStatusCode.UNPROCESSABLE_ENTITY, authErrorMessages.INVALID_EMAIL),
-						null,
+						null
 					);
 				case UserKeys.PASSWORD:
 					return next(
 						new CustomError(HttpStatusCode.UNPROCESSABLE_ENTITY, authErrorMessages.INVALID_PASSWORD),
-						null,
+						null
 					);
 				case UserKeys.FIRST_NAME:
 					return next(
 						new CustomError(HttpStatusCode.UNPROCESSABLE_ENTITY, authErrorMessages.INVALID_FIRST_NAME),
-						null,
+						null
 					);
 				case UserKeys.LAST_NAME:
 					return next(
 						new CustomError(HttpStatusCode.UNPROCESSABLE_ENTITY, authErrorMessages.INVALID_LAST_NAME),
-						null,
+						null
 					);
 				default:
 					return next(
 						new CustomError(HttpStatusCode.UNPROCESSABLE_ENTITY, authErrorMessages.UPROCESSABLE_DATA),
-						null,
+						null
 					);
 			}
 		});

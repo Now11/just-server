@@ -8,16 +8,16 @@ export default abstract class BaseRepository<T extends ObjectLiteral> extends Re
 	getById(id: string): Promise<T> {
 		return this.findOne({
 			where: {
-				id,
-			},
+				id
+			}
 		});
 	}
 
-	createItem(data: T): Promise<InsertResult> {
+	createItem(data: Partial<T>): Promise<InsertResult> {
 		return this.insert(data);
 	}
 
-	updateById(id: string, data: T): Promise<UpdateResult> {
+	updateById(id: string, data: Partial<T>): Promise<UpdateResult> {
 		return this.update(id, data);
 	}
 

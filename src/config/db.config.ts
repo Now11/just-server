@@ -12,7 +12,7 @@ const connectionOpts: ConnectionOptions = {
 	host: db.host,
 	entities: db.entities,
 	migrations: db.migrations,
-	synchronize: db.synchronize,
+	synchronize: db.synchronize
 };
 
 export { connectionOpts };

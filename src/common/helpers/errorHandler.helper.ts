@@ -19,6 +19,6 @@ export const handleError = (err: CustomError, res: express.Response) => {
 	res.status(statusCode).json({
 		status: 'error',
 		statusCode,
-		message,
+		message
 	});
 };
