@@ -1,13 +1,15 @@
 import { getCustomRepository } from 'typeorm';
 import { generateToken, hashPassword } from '../common/helpers';
-import { IAuthUser, ICreateUser } from '../common/models';
+import { ICreateUser } from '../common/models';
+import { IUser } from '../common/models/user/IUser';
+
 import { UserRepository } from '../data/repositories';
 
 class AuthService {
-	async login(data: IAuthUser) {
-		const accessToken = generateToken(data.id);
+	async login(data: IUser) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { password, createdAt, updatedAt, ...user } = data;
+		const { password, createdAt, updatedAt, id, ...user } = data;
+		const accessToken = generateToken(id);
 		return { accessToken, user };
 	}
 

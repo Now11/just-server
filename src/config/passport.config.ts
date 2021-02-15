@@ -15,6 +15,7 @@ passport.use(
 		{
 			usernameField: UserKeys.EMAIL_FIELD
 		},
+		// eslint-disable-next-line consistent-return
 		async (email: string, password: string, next): Promise<void> => {
 			try {
 				const userRepository = getCustomRepository(UserRepository);
@@ -32,6 +33,7 @@ passport.use(
 						null
 					);
 				}
+
 				return next(null, user);
 			} catch (error) {
 				return next(error);
@@ -90,15 +92,5 @@ passport.use(
 		}
 	)
 );
-/* eslint-disalbe ban-ts-comment @ts-ignore
- passport.serializeUser((user: IUser, next) => {
- next(null, { id: user.id });
-});
 
-passport.deserializeUser(async (id: string, next) => {
-const userRepository = getCustomRepository(UserRepository);
- const user = await userRepository.getById(id);
- next(null, user);
- });
-*/
 export default passport;

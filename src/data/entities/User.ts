@@ -7,11 +7,11 @@ import { AbstractEntity } from '../abstract/AbstractEntity';
 export class User extends AbstractEntity {
 	@Column({ length: 100, nullable: true })
 	@IsNotEmpty()
-	firstName!: string;
+	firstName: string;
 
 	@Column({ length: 100, nullable: true })
 	@IsNotEmpty()
-	lastName!: string;
+	lastName: string;
 
 	@Column({ unique: true, nullable: false })
 	@Length(6, 30)

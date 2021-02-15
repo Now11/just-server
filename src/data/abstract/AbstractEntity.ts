@@ -2,11 +2,11 @@ import { BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn 
 
 export abstract class AbstractEntity extends BaseEntity {
 	@PrimaryGeneratedColumn('uuid')
-	id?: string;
+	id: string;
 
 	@CreateDateColumn()
-	createdAt?: Date;
+	createdAt: Date;
 
 	@UpdateDateColumn()
-	updatedAt?: Date;
+	updatedAt: Date;
 }

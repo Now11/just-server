@@ -4,7 +4,7 @@ import BaseRepository from './base.repository';
 
 @EntityRepository(User)
 export class UserRepository extends BaseRepository<User> {
-	getByEmail(email: string): Promise<User | undefined> {
+	getByEmail(email: string) {
 		return this.findOne({ where: { email } });
 	}
 }
