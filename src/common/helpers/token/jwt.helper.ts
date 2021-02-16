@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { jwtConfig } from '../../../config';
 
-const { secret } = jwtConfig;
+const { secret, accessToken } = jwtConfig;
 
-export const generateAccessToken = (id: string): string => jwt.sign({ id }, secret, { expiresIn: '10000ms' });
+export const generateAccessToken = (id: string): string =>
+	jwt.sign({ id }, secret, { expiresIn: accessToken.expiresIn });
