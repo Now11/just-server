@@ -1,5 +1,5 @@
-import * as appConfig from './app.config';
-import * as jwtConfig from './jwt.config';
-import * as passportConfig from './passport.config';
+import { jwtConfig } from './jwtConfig';
+import { connectionOpts } from './db.config';
+import { routesWhiteList } from './routesWhiteList.config';
 
-export { appConfig, jwtConfig, passportConfig };
+export { jwtConfig, connectionOpts, routesWhiteList };

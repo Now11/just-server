@@ -6,8 +6,8 @@ import { validateUser } from '../validators/userProfile.validator';
 import { UserKeys, HttpStatusCode } from '../common/enums';
 import { authErrorMessages } from '../common/constants';
 import { passwordValid, CustomError } from '../common/helpers';
-import { jwtSecret } from './jwt.config';
 import { UserRepository } from '../data/repositories';
+import { jwtConfig } from './jwtConfig';
 
 passport.use(
 	'login',
@@ -72,7 +72,7 @@ passport.use(
 
 const opts = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-	secretOrKey: jwtSecret
+	secretOrKey: jwtConfig.secret
 };
 
 passport.use(

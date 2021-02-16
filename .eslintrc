@@ -38,7 +38,7 @@
 		"strict": "off",
 		"import/prefer-default-export": "off",
 		"@typescript-eslint/no-unused-vars": [
-			"error",
+			"warn",
 			{ "args": "after-used", "argsIgnorePattern": "^_", "caughtErrors": "all", "vars": "all" }
 		],
 		"@typescript-eslint/explicit-module-boundary-types": "off",

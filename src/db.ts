@@ -1,9 +1,9 @@
 import { createConnection } from 'typeorm';
-import { connectionOpts } from './config/db.config';
+import { connectionOpts } from './config';
 
 const getConnection = async () => {
 	try {
-		await createConnection({ ...connectionOpts });
+		await createConnection(connectionOpts);
 		// eslint-disable-next-line no-console
 		console.log('Successfully connected to Postges DB');
 	} catch (err) {

@@ -1,2 +1,3 @@
-export * from './IAuthUser';
 export * from './ICreateUser';
+export * from './ICreateUser';
+export * from './IUser';

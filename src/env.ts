@@ -1,13 +1,13 @@
 import * as dotenv from 'dotenv';
-import { getEnv } from './common/helpers';
+import { getEnv } from './common/helpers/path.helper';
 
 dotenv.config();
 
 export const env = {
 	app: {
 		nodeEnv: getEnv('NODE_ENV'),
-		port: getEnv('APP_PORT') || 3002,
-		secret: getEnv('SECRET') || 'secret',
+		port: getEnv('APP_PORT') || 3001,
+		secret: getEnv('SECRET') || 'secret'
 	},
 
 	db: {
@@ -19,6 +19,6 @@ export const env = {
 		port: Number(getEnv('TYPEORM_PORT')),
 		entities: [getEnv('TYPEORM_ENTITIES')],
 		migrations: [getEnv('TYPEORM_MIGRATIONS')],
-		synchronize: Boolean(getEnv('TYPEORM_SYNCHRONIZE')),
-	},
+		synchronize: Boolean(getEnv('TYPEORM_SYNCHRONIZE'))
+	}
 };

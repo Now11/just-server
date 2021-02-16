@@ -1,4 +1,4 @@
-import passport from '../../config/passport.config';
+import passport from 'passport';
 
 const registrationMiddleware = passport.authenticate('register', { session: false });
 
