@@ -1,7 +1,6 @@
 {
     "name": "just-server",
     "version": "1.0.0",
-    "main": "./src/server.ts",
     "scripts": {
         "start": "nodemon -r ts-node --files ./src/server.ts",
         "add-migration": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:generate -n",
@@ -9,7 +8,7 @@
         "drop": "node_modules/.bin/ts-node node_modules/typeorm/cli.js schema:drop",
         "typeorm": "node_modules/.bin/ts-node node_modules/typeorm/cli.js",
         "seed": "node_modules/.bin/ts-node src/data/seeders",
-        "tests": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000"
+        "test": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000"
     },
     "author": "lightnow22@gmail.com",
     "license": "ISC",
@@ -35,12 +34,14 @@
         "supertest": "^5.0.0",
         "ts-node": "^9.0.0",
         "typeorm": "^0.2.28",
-        "wait-on": "^5.2.0"
+        "wait-on": "^5.2.0",
+        "chance": "^1.1.7"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
         "@types/body-parser": "^1.19.0",
         "@types/chai": "^4.2.14",
+        "@types/chance": "^1.1.1",
         "@types/cors": "^2.8.8",
         "@types/express": "^4.17.8",
         "@types/jsonwebtoken": "^8.5.0",

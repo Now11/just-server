@@ -1,8 +1,9 @@
-interface UserModel {
-	data: {
+interface IUserModel {
+	user: {
 		firstName: string;
 		lastName: string;
 		email: string;
 	};
 }
-export { UserModel };
+
+export { IUserModel };

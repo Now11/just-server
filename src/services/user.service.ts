@@ -1,6 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-
-import { UserRepository } from '../data/repositories/user.repository';
+import { UserRepository } from '../data/repositories';
 
 class UserService {
 	async getUserById(id: string) {

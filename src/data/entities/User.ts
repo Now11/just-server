@@ -1,7 +1,7 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { MinLength, IsEmail, IsNotEmpty, Length } from 'class-validator';
 import { AbstractEntity } from '../abstract/AbstractEntity';
-// import { Post } from './Post';
+import { Post } from './Post';
 
 @Entity()
 export class User extends AbstractEntity {
@@ -14,7 +14,7 @@ export class User extends AbstractEntity {
 	lastName: string;
 
 	@Column({ unique: true, nullable: false })
-	@Length(6, 30)
+	@Length(6, 100)
 	@IsEmail()
 	@IsNotEmpty()
 	email: string;
@@ -23,6 +23,6 @@ export class User extends AbstractEntity {
 	@MinLength(6)
 	password: string;
 
-	// @OneToMany(() => Post, (post) => post.owner, { cascade: true })
-	// posts: Post[];
+	@OneToMany(() => Post, post => post.ownerId)
+	posts: Post[];
 }

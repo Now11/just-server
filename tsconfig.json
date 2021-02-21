@@ -23,6 +23,7 @@
 		"esModuleInterop": true,
 		"types": ["node", "mocha"],
 		"lib": ["es2020"],
-		"typeRoots": ["./node_modules/@types", "types/custom.d.ts"]
-	}
+		"typeRoots": ["./node_modules/@types", "types/request.d.ts"]
+	},
+	"include": ["src/**/*.*", "__test__/**/*.*"]
 }

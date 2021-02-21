@@ -1,1 +1,2 @@
-/src/data/migration/
+/src/data/migration/**/*
+/types/**/*

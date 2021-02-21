@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
-import { tokenHelpers, hashPassword } from '../common/helpers';
-import { ICreateUser } from '../common/models';
+import { generateAccessToken, hashPassword } from '../common/helpers';
+import { IRegisterUser } from '../common/models';
 import { IUser } from '../common/models/user/IUser';
 
 import { UserRepository } from '../data/repositories';
@@ -9,11 +9,11 @@ class AuthService {
 	async login(data: IUser) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { password, createdAt, updatedAt, id, ...user } = data;
-		const accessToken = tokenHelpers.generateAccessToken(id);
+		const accessToken = generateAccessToken(id);
 		return { accessToken, user: { ...user, userId: id } };
 	}
 
-	async register(data: ICreateUser) {
+	async register(data: IRegisterUser) {
 		const { password, ...user } = data;
 		const userRepository = getCustomRepository(UserRepository);
 

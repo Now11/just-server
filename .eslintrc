@@ -37,10 +37,7 @@
 		"no-await-in-loop": "off",
 		"strict": "off",
 		"import/prefer-default-export": "off",
-		"@typescript-eslint/no-unused-vars": [
-			"warn",
-			{ "args": "after-used", "argsIgnorePattern": "^_", "caughtErrors": "all", "vars": "all" }
-		],
+		"@typescript-eslint/no-unused-vars": ["warn", { "args": "after-used", "argsIgnorePattern": "^_" }],
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/no-var-requires": "off",
