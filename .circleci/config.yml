@@ -1,0 +1,28 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: cimg/node:14.15.5
+      - image: circleci/postgres:12.1
+        environment:
+          POSTGRES_USER: postgres 
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pet_db
+    steps:
+      - checkout
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: install deps
+          command: npm install
+      - run:
+          name: run migrations
+          command: npm run migrations
+      - run:
+          name: start server
+          command: npm run start
+          background: true
+      - run:
+          name: run tests
+          command: npm run test
