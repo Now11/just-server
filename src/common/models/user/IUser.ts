@@ -1,4 +1,4 @@
-export interface IUser extends Express.User {
+export interface IUser {
 	id: string;
 	firstName: string;
 	lastName: string;
