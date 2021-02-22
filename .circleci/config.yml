@@ -1,7 +1,19 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.0
-workflows:
-  node-tests:
-    jobs:
-      - node/test
+jobs:
+  build:
+    docker:
+      - image: cimg/node:14.15.5
+      - image: circleci/postgres:12.1
+    steps:
+      - checkout
+      - run:
+          name: createDB
+          command: | 
+            docker run -d --name pg -p 5422:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=pet_db
+            docker ps
+      - run:
+          name: install deps
+          command: npm install
+      - run:
+          name: run tests
+          command: npm run test
