@@ -20,5 +20,8 @@ jobs:
           name: run migrations
           command: npm run migrations
       - run:
+          name: start server
+          command: npm run start
+      - run:
           name: run tests
           command: npm run test
