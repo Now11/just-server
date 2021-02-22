@@ -10,28 +10,19 @@ jobs:
           POSTGRES_DB: pet_db
     steps:
       - checkout
-      - run: 
-          name: test
-          command: |
-            ps
-            node -v
-      - run: 
-          name: test
-          command: |
-            docker ps  
-
-      # - run:
-      #     name: Wait for DB
-      #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      # - run:
-      #     name: install deps
-      #     command: npm install
-      # - run:
-      #     name: run migrations
-      #     command: npm run migrations
-      # - run:
-      #     name: start server
-      #     command: npm run start
-      # - run:
-      #     name: run tests
-      #     command: npm run test
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: install deps
+          command: npm install
+      - run:
+          name: run migrations
+          command: npm run migrations
+      - run:
+          name: start server
+          command: npm run start
+          background: true
+      - run:
+          name: run tests
+          command: npm run test
