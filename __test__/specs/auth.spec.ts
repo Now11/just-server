@@ -84,6 +84,7 @@ describe('Suite - /auth routes', () => {
 		});
 
 		expect(statusCode).to.eql(400);
+
 		expect(responseBody.message).to.eql('Incorrect email or password');
 		expect(responseBody.status).to.eql('error');
 		expect(responseBody.statusCode).to.eql(400);
