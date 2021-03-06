@@ -1,4 +1,4 @@
-import { Repository, ObjectLiteral, UpdateResult, DeleteResult, InsertResult } from 'typeorm';
+import { Repository, ObjectLiteral, DeleteResult } from 'typeorm';
 
 export default abstract class BaseRepository<T extends ObjectLiteral> extends Repository<T> {
 	getAll(): Promise<T[]> {
@@ -13,12 +13,8 @@ export default abstract class BaseRepository<T extends ObjectLiteral> extends Re
 		});
 	}
 
-	createItem(data: Partial<T>): Promise<InsertResult> {
-		return this.insert(data);
-	}
-
-	updateById(id: string, data: Partial<T>): Promise<UpdateResult> {
-		return this.update(id, data);
+	createItem(data: Partial<T>): Promise<T> {
+		return this.save(data);
 	}
 
 	deleteById(id: string): Promise<DeleteResult> {

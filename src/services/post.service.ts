@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { HttpStatusCode } from '../common/enums';
 import { CustomError } from '../common/helpers';
-import { IPost } from '../common/models/post';
+import { IPost } from '../common/models';
 import { PostRepository } from '../data/repositories';
 
 class PostService {
@@ -14,28 +14,68 @@ class PostService {
 		return posts;
 	}
 
-	async createPost(data: IPost) {
-		try {
-			const postRepository = getCustomRepository(PostRepository);
-			const post = await postRepository.createItem(data);
+	async createPost(userId: string, data: IPost) {
+		const postRepository = getCustomRepository(PostRepository);
 
-			if (!post) {
-				throw new CustomError(HttpStatusCode.BAD_REQUEST, 'Bad request');
-			}
+		// @ts-ignore
+		const newPost = await postRepository.createItem({ ...data, owner: userId });
 
-			return data;
-		} catch (err) {
-			throw new CustomError(HttpStatusCode.INTERNAL_SERVER_ERROR, 'Internal server error');
+		const { createdAt, updatedAt, id, ...post } = newPost;
+		if (!newPost) {
+			throw new CustomError(HttpStatusCode.BAD_REQUEST, 'Bad request');
 		}
+
+		return { id, post };
 	}
 
-	async getPostById(id: string) {
+	async getPostById(userId: string, postId: string) {
 		const postRepository = getCustomRepository(PostRepository);
-		const post = await postRepository.getById(id);
+		const post = await postRepository.findById(postId);
+
 		if (!post) {
 			throw new CustomError(HttpStatusCode.NOT_FOUND, 'Post was not found');
 		}
+
+		if (post.owner.id !== userId) {
+			throw new CustomError(HttpStatusCode.FORBIDDEN, "You don't have permissions to update the post");
+		}
+
 		return post;
+	}
+
+	async updatePost(userId: string, postId: string, postData: IPost) {
+		const postRepository = getCustomRepository(PostRepository);
+		const post = await postRepository.findById(postId);
+
+		if (!post) {
+			throw new CustomError(HttpStatusCode.NOT_FOUND, 'Post was not found');
+		}
+
+		if (post.owner.id !== userId) {
+			throw new CustomError(HttpStatusCode.FORBIDDEN, "You don't have permissions to update the post");
+		}
+
+		const { createdAt, updatedAt, id, owner, ...data } = postData;
+		const updatePost = await postRepository.updateById(postId, data);
+
+		return updatePost;
+	}
+
+	async deletePost(userId: string, postId: string) {
+		const postRepository = getCustomRepository(PostRepository);
+		const post = await postRepository.findById(postId);
+
+		if (!post) {
+			throw new CustomError(HttpStatusCode.NOT_FOUND, 'Post was not found');
+		}
+
+		if (post.owner.id !== userId) {
+			throw new CustomError(HttpStatusCode.FORBIDDEN, "You don't have permissions to delete the post");
+		}
+
+		await postRepository.deleteById(postId);
+
+		return { success: true };
 	}
 }
 export { PostService };

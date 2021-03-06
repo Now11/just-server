@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { jwtMiddleware } from './jwt.middleware';
 
 const urlInWhiteList = (url: string, routesWhiteList: string[]) => {
-	const isALlowed = routesWhiteList.some(route => route === url);
-	return isALlowed;
+	const isAllowed = routesWhiteList.some(route => route === url);
+	return isAllowed;
 };
 
 export const authorizationMiddleware = (routesWhiteList: string[] = []) => (

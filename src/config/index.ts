@@ -1,5 +1,5 @@
-import { jwtConfig } from './jwtConfig';
-import { connectionOpts } from './db.config';
+import * as jwtConfig from './jwtConfig';
+import * as dbConfig from './db.config';
 import { routesWhiteList } from './routesWhiteList.config';
 
-export { jwtConfig, connectionOpts, routesWhiteList };
+export { jwtConfig, dbConfig, routesWhiteList };

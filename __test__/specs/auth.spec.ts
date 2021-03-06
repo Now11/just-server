@@ -4,13 +4,13 @@ import { request, Response } from '../lib';
 import { ICustomError, IUserModel } from '../models';
 
 import { AuthService } from '../../src/services';
-import { getConnection } from '../../src/db';
+import { dbConnect } from '../../src/db';
 
 const chance = new Chance();
 describe('Suite - /auth routes', () => {
 	let connection: any;
 	before(async () => {
-		connection = await getConnection();
+		connection = await dbConnect();
 	});
 
 	after(async () => {
@@ -38,9 +38,9 @@ describe('Suite - /auth routes', () => {
 		});
 
 		expect(statusCode).to.eql(200);
-		expect(responseBody.user.email).to.eql(user.email);
-		expect(responseBody.user.firstName).to.eql(user.firstName);
-		expect(responseBody.user.lastName).to.eql(user.lastName);
+		expect({ email: user.email, firstName: user.firstName, lastName: user.lastName }).to.deep.equal(
+			responseBody.user
+		);
 	});
 
 	it('[POST] /login - login with valid creds', async () => {
@@ -64,9 +64,12 @@ describe('Suite - /auth routes', () => {
 		});
 
 		expect(statusCode).to.eql(200);
-		expect(responseBody.user.email).to.eql(user.email);
-		expect(responseBody.user.firstName).to.eql(user.firstName);
-		expect(responseBody.user.lastName).to.eql(user.lastName);
+		expect({
+			email: user.email,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			id: responseBody.user.id
+		}).to.deep.equal(responseBody.user);
 	});
 
 	it('[POST] /login - login with invalid creds', async () => {

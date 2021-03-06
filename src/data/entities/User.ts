@@ -23,6 +23,6 @@ export class User extends AbstractEntity {
 	@MinLength(6)
 	password: string;
 
-	@OneToMany(() => Post, post => post.ownerId)
+	@OneToMany(() => Post, post => post.owner, { cascade: true })
 	posts: Post[];
 }

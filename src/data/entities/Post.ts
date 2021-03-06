@@ -17,7 +17,7 @@ export class Post extends AbstractEntity {
 	@IsNotEmpty()
 	isPrivate: boolean;
 
-	@ManyToOne(() => User, user => user.posts, { cascade: true })
-	@JoinColumn({ name: 'owner_id' })
-	ownerId: User;
+	@ManyToOne(() => User, user => user.posts)
+	@JoinColumn({ name: 'ownerId' })
+	owner: User;
 }

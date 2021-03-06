@@ -2,12 +2,12 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { getCustomRepository } from 'typeorm';
-import { validateUser } from '../validators/userProfile.validator';
+import { validateUser } from '../validators/userProfile.validation';
 import { UserKeys, HttpStatusCode } from '../common/enums';
 import { authErrorMessages } from '../common/constants';
 import { passwordValid, CustomError } from '../common/helpers';
 import { UserRepository } from '../data/repositories';
-import { jwtConfig } from './jwtConfig';
+import { jwtOptions } from './jwtConfig';
 
 passport.use(
 	'login',
@@ -72,7 +72,7 @@ passport.use(
 
 const opts = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-	secretOrKey: jwtConfig.secret
+	secretOrKey: jwtOptions.secret
 };
 
 passport.use(

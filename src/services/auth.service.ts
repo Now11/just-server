@@ -10,7 +10,7 @@ class AuthService {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { password, createdAt, updatedAt, id, ...user } = data;
 		const accessToken = generateAccessToken(id);
-		return { accessToken, user: { ...user, userId: id } };
+		return { accessToken, user: { ...user, id } };
 	}
 
 	async register(data: IRegisterUser) {

@@ -12,12 +12,22 @@ router.get(
 
 router.get(
 	'/:id',
-	run((req: Request) => postService.getPostById(req.params.id))
+	run((req: Request) => postService.getPostById(req.user.id, req.params.id))
 );
 
 router.post(
 	'/',
-	run((req: Request) => postService.createPost(req.body))
+	run((req: Request) => postService.createPost(req.user.id, req.body))
+);
+
+router.put(
+	'/:id',
+	run((req: Request) => postService.updatePost(req.user.id, req.params.id, req.body))
+);
+
+router.delete(
+	'/:id',
+	run((req: Request) => postService.deletePost(req.user.id, req.params.id))
 );
 
 export default router;

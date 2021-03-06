@@ -1,9 +1,9 @@
 import { createConnection } from 'typeorm';
-import { connectionOpts } from './config';
+import { dbConfig } from './config';
 
-const getConnection = async () => {
+const dbConnect = async () => {
 	try {
-		const connection = await createConnection(connectionOpts);
+		const connection = await createConnection(dbConfig.connectionOpts);
 		return connection;
 	} catch (err) {
 		// eslint-disable-next-line no-console
@@ -12,4 +12,4 @@ const getConnection = async () => {
 	}
 };
 
-export { getConnection };
+export { dbConnect };
