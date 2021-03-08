@@ -5,18 +5,20 @@ import BaseRepository from './base.repository';
 @EntityRepository(Post)
 export class PostRepository extends BaseRepository<Post> {
 	async findAllByOwnerId(id: string) {
-		return this.find({ where: { ownerId: id } });
+		return this.findOne({ where: { ownerId: id } });
 	}
 
-	async findById(id: string): Promise<Post> {
-		return this.createQueryBuilder('post')
-			.where('post.id = :id', { id })
-			.leftJoin('post.owner', 'user')
-			.addSelect(['user.email', 'user.firstName', 'user.lastName', 'user.id'])
+	async findById(id: number) {
+		return this.createQueryBuilder()
+			.select(['post', 'owner.id', 'tags.id', 'tags.title'])
+			.from(Post, 'post')
+			.innerJoin('post.owner', 'owner')
+			.innerJoin('post.tags', 'tags')
+			.where({ id })
 			.getOne();
 	}
 
-	async updateById(id: string, data: Partial<Post>): Promise<Post> {
+	async updateById(id: number, data: Partial<Post>): Promise<Post> {
 		return this.createQueryBuilder()
 			.update(Post)
 			.set(data)

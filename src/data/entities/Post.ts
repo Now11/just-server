@@ -1,10 +1,24 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+	Entity,
+	Column,
+	ManyToOne,
+	JoinColumn,
+	CreateDateColumn,
+	UpdateDateColumn,
+	PrimaryGeneratedColumn,
+	ManyToMany,
+	JoinTable
+} from 'typeorm';
+
 import { MinLength, IsNotEmpty } from 'class-validator';
-import { AbstractEntity } from '../abstract/AbstractEntity';
 import { User } from './User';
+import { Tag } from './Tag';
 
 @Entity()
-export class Post extends AbstractEntity {
+export class Post {
+	@PrimaryGeneratedColumn('increment')
+	id: number;
+
 	@Column({ length: 20, nullable: false })
 	@MinLength(6)
 	@IsNotEmpty()
@@ -20,4 +34,14 @@ export class Post extends AbstractEntity {
 	@ManyToOne(() => User, user => user.posts)
 	@JoinColumn({ name: 'ownerId' })
 	owner: User;
+
+	@ManyToMany(() => Tag)
+	@JoinTable({ name: 'post_tags' })
+	tags: Tag[];
+
+	@CreateDateColumn()
+	createdAt: Date;
+
+	@UpdateDateColumn()
+	updatedAt: Date;
 }

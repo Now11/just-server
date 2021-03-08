@@ -4,3 +4,4 @@ Dockerfile
 .env
 .eslintignore
 dist
+src/test.ts

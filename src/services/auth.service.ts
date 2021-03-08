@@ -1,8 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import { generateAccessToken, hashPassword } from '../common/helpers';
-import { IRegisterUser } from '../common/models';
-import { IUser } from '../common/models/user/IUser';
-
+import { IRegisterUser, IUser } from '../common/models';
 import { UserRepository } from '../data/repositories';
 
 class AuthService {

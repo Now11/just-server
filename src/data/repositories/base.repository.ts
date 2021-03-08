@@ -17,7 +17,7 @@ export default abstract class BaseRepository<T extends ObjectLiteral> extends Re
 		return this.save(data);
 	}
 
-	deleteById(id: string): Promise<DeleteResult> {
+	deleteById(id: number): Promise<DeleteResult> {
 		return this.delete(id);
 	}
 }

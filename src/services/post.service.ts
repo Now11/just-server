@@ -16,9 +16,7 @@ class PostService {
 
 	async createPost(userId: string, data: IPost) {
 		const postRepository = getCustomRepository(PostRepository);
-
-		// @ts-ignore
-		const newPost = await postRepository.createItem({ ...data, owner: userId });
+		const newPost = await postRepository.createItem({ ...data, owner: userId as any });
 
 		const { createdAt, updatedAt, id, ...post } = newPost;
 		if (!newPost) {
@@ -28,10 +26,9 @@ class PostService {
 		return { id, post };
 	}
 
-	async getPostById(userId: string, postId: string) {
+	async getPostById(userId: string, postId: number) {
 		const postRepository = getCustomRepository(PostRepository);
 		const post = await postRepository.findById(postId);
-
 		if (!post) {
 			throw new CustomError(HttpStatusCode.NOT_FOUND, 'Post was not found');
 		}
@@ -43,7 +40,7 @@ class PostService {
 		return post;
 	}
 
-	async updatePost(userId: string, postId: string, postData: IPost) {
+	async updatePost(userId: string, postId: number, postData: IPost) {
 		const postRepository = getCustomRepository(PostRepository);
 		const post = await postRepository.findById(postId);
 
@@ -61,7 +58,7 @@ class PostService {
 		return updatePost;
 	}
 
-	async deletePost(userId: string, postId: string) {
+	async deletePost(userId: string, postId: number) {
 		const postRepository = getCustomRepository(PostRepository);
 		const post = await postRepository.findById(postId);
 
