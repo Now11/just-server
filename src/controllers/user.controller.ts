@@ -4,7 +4,7 @@ import { CustomError } from '../common/helpers';
 import { IUser } from '../common/models';
 import { UserRepository } from '../data/repositories';
 
-class UserService {
+class UserController {
 	async getUserById(id: string) {
 		const userRepository = getCustomRepository(UserRepository);
 		const { password, createdAt, updatedAt, ...data } = await userRepository.getById(id);
@@ -29,4 +29,4 @@ class UserService {
 		return updatedUser;
 	}
 }
-export { UserService };
+export { UserController };

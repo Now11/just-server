@@ -1,12 +1,11 @@
 import { expect } from 'chai';
 import Chance from 'chance';
-import { request, Response } from '../lib';
-import { ICustomError, IUserModel } from '../models';
-
-import { AuthService } from '../../src/services';
 import { dbConnect } from '../../src/db';
+import { ApiClient } from '../src/controllers';
+import { AuthController } from '../../src/controllers';
 
 const chance = new Chance();
+
 describe('Suite - /auth routes', () => {
 	let connection: any;
 	before(async () => {
@@ -25,22 +24,17 @@ describe('Suite - /auth routes', () => {
 			lastName: 'TestUser'
 		};
 
-		const { responseBody, statusCode }: Response<IUserModel> = await request({
-			url: 'http://localhost:3001',
-			path: '/api/auth/register',
-			method: 'POST',
-			body: {
-				email: user.email,
-				password: user.password,
-				firstName: user.firstName,
-				lastName: user.lastName
-			}
-		});
+		const apiClient = ApiClient.unauthorized();
+
+		const { body, statusCode } = await apiClient.user.register(user);
 
 		expect(statusCode).to.eql(200);
-		expect({ email: user.email, firstName: user.firstName, lastName: user.lastName }).to.deep.equal(
-			responseBody.user
-		);
+		expect({
+			email: user.email,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			id: body.id
+		}).to.deep.equal(body);
 	});
 
 	it('[POST] /login - login with valid creds', async () => {
@@ -51,42 +45,27 @@ describe('Suite - /auth routes', () => {
 			lastName: 'TestUser'
 		};
 
-		await new AuthService().register(user);
+		await new AuthController().register(user);
 
-		const { responseBody, statusCode }: Response<IUserModel> = await request({
-			url: 'http://localhost:3001',
-			path: '/api/auth/login',
-			method: 'POST',
-			body: {
-				email: user.email,
-				password: user.password
-			}
-		});
+		const apiClient = ApiClient.unauthorized();
+		const { body, statusCode } = await apiClient.user.login({ email: user.email, password: user.password });
 
 		expect(statusCode).to.eql(200);
 		expect({
 			email: user.email,
 			firstName: user.firstName,
 			lastName: user.lastName,
-			id: responseBody.user.id
-		}).to.deep.equal(responseBody.user);
+			id: body.user.id
+		}).to.deep.equal(body.user);
+		expect(body.accessToken).to.be.not.null;
 	});
 
 	it('[POST] /login - login with invalid creds', async () => {
-		const { responseBody, statusCode }: Response<ICustomError> = await request({
-			url: 'http://localhost:3001',
-			path: '/api/auth/login',
-			method: 'POST',
-			body: {
-				email: 'invalidEmail@gmail.com',
-				password: 'invalid_password'
-			}
-		});
+		const apiClient = ApiClient.unauthorized();
+		const res: any = await apiClient.user.login({ email: 'invalid@email.com', password: '11111' }, false);
 
-		expect(statusCode).to.eql(400);
-
-		expect(responseBody.message).to.eql('Incorrect email or password');
-		expect(responseBody.status).to.eql('error');
-		expect(responseBody.statusCode).to.eql(400);
+		expect(res.body.statusCode).to.eql(400);
+		expect(res.body.message).to.eql('Incorrect email or password');
+		expect(res.body.status).to.eql('error');
 	});
 });

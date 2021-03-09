@@ -4,8 +4,9 @@ import BaseRepository from './base.repository';
 
 @EntityRepository(Post)
 export class PostRepository extends BaseRepository<Post> {
+	// TO DO: refactor to Get Post in form {[postId:1, postTitle:'tttt']}
 	async findAllByOwnerId(id: string) {
-		return this.findOne({ where: { ownerId: id } });
+		return this.createQueryBuilder('post').select(['post.id', 'post.title']).where({ owner: id }).getMany();
 	}
 
 	async findById(id: number) {

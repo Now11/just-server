@@ -3,7 +3,7 @@ import { generateAccessToken, hashPassword } from '../common/helpers';
 import { IRegisterUser, IUser } from '../common/models';
 import { UserRepository } from '../data/repositories';
 
-class AuthService {
+class AuthController {
 	async login(data: IUser) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { password, createdAt, updatedAt, id, ...user } = data;
@@ -15,13 +15,18 @@ class AuthService {
 		const { password, ...user } = data;
 		const userRepository = getCustomRepository(UserRepository);
 
-		await userRepository.createItem({
+		const newUser = await userRepository.createItem({
 			...user,
 			password: hashPassword(password)
 		});
 
-		return { user };
+		return {
+			id: newUser.id,
+			email: newUser.email,
+			firstName: newUser.firstName,
+			lastName: newUser.lastName
+		};
 	}
 }
 
-export { AuthService };
+export { AuthController };

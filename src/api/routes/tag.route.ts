@@ -1,18 +1,18 @@
 import { Router, Request } from 'express';
 import { run } from '../../common/helpers';
-import { TagService } from '../../services';
+import { TagController } from '../../controllers';
 
-const tagService = new TagService();
+const tagController = new TagController();
 const router = Router();
 
 router.get(
 	'/',
-	run((req: Request) => tagService.getTags())
+	run((req: Request) => tagController.getTags())
 );
 
 router.post(
 	'/',
-	run((req: Request) => tagService.createTag(req.body))
+	run((req: Request) => tagController.createTag(req.body))
 );
 
 export default router;

@@ -1,33 +1,33 @@
 import { Router, Request } from 'express';
-import { PostService } from '../../services';
+import { PostController } from '../../controllers';
 import { run } from '../../common/helpers';
 
-const postService = new PostService();
+const postController = new PostController();
 const router = Router();
 
 router.get(
 	'/',
-	run((req: Request) => postService.getUserPosts(req.query.ownerId as string))
+	run((req: Request) => postController.getUserPosts(req.query.ownerId as string))
 );
 
 router.get(
 	'/:postId',
-	run((req: Request) => postService.getPostById(req.user.id, Number(req.params.postId)))
+	run((req: Request) => postController.getPostById(req.user.id, Number(req.params.postId)))
 );
 
 router.post(
 	'/',
-	run((req: Request) => postService.createPost(req.user.id, req.body))
+	run((req: Request) => postController.createPost(req.user, req.body))
 );
 
 router.put(
 	'/:postId',
-	run((req: Request) => postService.updatePost(req.user.id, Number(req.params.postId), req.body))
+	run((req: Request) => postController.updatePost(req.user.id, Number(req.params.postId), req.body))
 );
 
 router.delete(
 	'/:postId',
-	run((req: Request) => postService.deletePost(req.user.id, Number(req.params.postId)))
+	run((req: Request) => postController.deletePost(req.user.id, Number(req.params.postId)))
 );
 
 export default router;

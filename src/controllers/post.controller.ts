@@ -1,29 +1,40 @@
 import { getCustomRepository } from 'typeorm';
 import { HttpStatusCode } from '../common/enums';
 import { CustomError } from '../common/helpers';
-import { IPost } from '../common/models';
+import { IPost, IUser } from '../common/models';
+import { ICreatePost } from '../common/models/post/ICreatePost';
 import { PostRepository } from '../data/repositories';
 
-class PostService {
+class PostController {
 	async getUserPosts(ownerId: string) {
 		const postRepository = getCustomRepository(PostRepository);
-		const posts = postRepository.findAllByOwnerId(ownerId);
+		const posts = await postRepository.findAllByOwnerId(ownerId);
+
 		if (!posts) {
 			throw new CustomError(HttpStatusCode.NOT_FOUND, 'Posts were not found');
 		}
 		return posts;
 	}
 
-	async createPost(userId: string, data: IPost) {
-		const postRepository = getCustomRepository(PostRepository);
-		const newPost = await postRepository.createItem({ ...data, owner: userId as any });
+	async createPost(user: IUser, data: ICreatePost) {
+		const { title, isPrivate, description, tags } = data;
 
-		const { createdAt, updatedAt, id, ...post } = newPost;
+		const postRepository = getCustomRepository(PostRepository);
+		const newPost = await postRepository.createItem({
+			title,
+			isPrivate,
+			description,
+			tags,
+			owner: user
+		});
+
+		const { createdAt, updatedAt, id, owner, ...post } = newPost;
+
 		if (!newPost) {
 			throw new CustomError(HttpStatusCode.BAD_REQUEST, 'Bad request');
 		}
 
-		return { id, post };
+		return { id, ...post };
 	}
 
 	async getPostById(userId: string, postId: number) {
@@ -75,4 +86,4 @@ class PostService {
 		return { success: true };
 	}
 }
-export { PostService };
+export { PostController };

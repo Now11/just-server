@@ -4,10 +4,10 @@ import { CustomError } from '../common/helpers';
 import { ITag, ICreateTag } from '../common/models';
 import { TagRepository } from '../data/repositories';
 
-class TagService {
+class TagController {
 	async getTags(): Promise<ITag[] | unknown> {
 		const tagRepository = getCustomRepository(TagRepository);
-		const tags = await tagRepository.getAll();
+		const tags = await tagRepository.findAll();
 		if (!tags) {
 			return {};
 		}
@@ -16,8 +16,17 @@ class TagService {
 	}
 
 	async createTag(data: ICreateTag) {
+		const { title } = data;
+
 		const tagRepository = getCustomRepository(TagRepository);
+		const existTag = await tagRepository.findByTitle(title);
+
+		if (existTag) {
+			throw new CustomError(HttpStatusCode.BAD_REQUEST, 'Title must be unique');
+		}
+
 		const newTag = await tagRepository.createItem(data);
+
 		if (!newTag) {
 			throw new CustomError(HttpStatusCode.BAD_REQUEST, 'Bad request');
 		}
@@ -26,4 +35,4 @@ class TagService {
 	}
 }
 
-export { TagService };
+export { TagController };
