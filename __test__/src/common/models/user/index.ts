@@ -1,2 +1,2 @@
-export * from './ILoginUser';
-export * from './IRegisterUser';
+export * from './IAuthUser';
+export * from './IUser';

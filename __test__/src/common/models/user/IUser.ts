@@ -1,12 +1,13 @@
-export interface IRegisterRequest {
+export interface INewUser {
 	email: string;
 	password: string;
 	firstName: string;
 	lastName: string;
 }
 
-export interface IRegisterResponse {
+export interface IUser {
 	email: string;
+	password: string;
 	firstName: string;
 	lastName: string;
 	id: string;

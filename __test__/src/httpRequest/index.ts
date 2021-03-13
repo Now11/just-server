@@ -1,6 +1,6 @@
 import got, { Got, Response, OptionsOfJSONResponseBody } from 'got';
 import { Methods } from '../common/enums/methods';
-import { IGet, IDelete, IPost, IPut } from '../common/models';
+import { IGetArgs, IDeleteArgs, IPostArgs, IPutArgs } from '../common/models';
 
 class HttpRequest {
 	private readonly gotInstance: Got;
@@ -11,7 +11,7 @@ class HttpRequest {
 		});
 	}
 
-	public get<T>({ url, searchParams }: IGet, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
+	public get<T>({ url, searchParams }: IGetArgs, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
 		return this.gotInstance(url, {
 			method: Methods.GET,
 			responseType: 'json',
@@ -20,7 +20,7 @@ class HttpRequest {
 		});
 	}
 
-	public post<T>({ url, body }: IPost, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
+	public post<T>({ url, body }: IPostArgs, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
 		return this.gotInstance(url, {
 			method: Methods.POST,
 			responseType: 'json',
@@ -29,7 +29,7 @@ class HttpRequest {
 		});
 	}
 
-	public put<T>({ url, body }: IPut, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
+	public put<T>({ url, body }: IPutArgs, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
 		return this.gotInstance(url, {
 			method: Methods.PUT,
 			responseType: 'json',
@@ -38,7 +38,7 @@ class HttpRequest {
 		});
 	}
 
-	public delete<T>({ url }: IDelete, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
+	public delete<T>({ url }: IDeleteArgs, options?: OptionsOfJSONResponseBody): Promise<Response<T>> {
 		return this.gotInstance(url, { method: Methods.DELETE, responseType: 'json', ...options });
 	}
 }

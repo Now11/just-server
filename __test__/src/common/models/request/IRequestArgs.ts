@@ -1,18 +1,18 @@
-export interface IGet {
+export interface IGetArgs {
 	url: string;
 	searchParams?: URLSearchParams;
 }
 
-export interface IPost {
+export interface IPostArgs {
 	url: string;
 	body: any;
 }
 
-export interface IPut {
+export interface IPutArgs {
 	url: string;
 	body: any;
 }
 
-export interface IDelete {
+export interface IDeleteArgs {
 	url: string;
 }

@@ -1,4 +1,4 @@
-import { IRegisterResponse } from './IRegisterUser';
+import { IUser } from './IUser';
 
 export interface ILoginRequest {
 	email: string;
@@ -6,6 +6,6 @@ export interface ILoginRequest {
 }
 
 export interface ILoginReposen {
-	user: IRegisterResponse;
+	user: IUser;
 	accessToken: string;
 }

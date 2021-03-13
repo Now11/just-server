@@ -40,6 +40,7 @@ class PostController {
 	async getPostById(userId: string, postId: number) {
 		const postRepository = getCustomRepository(PostRepository);
 		const post = await postRepository.findById(postId);
+
 		if (!post) {
 			throw new CustomError(HttpStatusCode.NOT_FOUND, 'Post was not found');
 		}
@@ -51,7 +52,7 @@ class PostController {
 		return post;
 	}
 
-	async updatePost(userId: string, postId: number, postData: IPost) {
+	async updatePost(userId: string, postId: number, postData: Partial<IPost>) {
 		const postRepository = getCustomRepository(PostRepository);
 		const post = await postRepository.findById(postId);
 
@@ -64,7 +65,8 @@ class PostController {
 		}
 
 		const { createdAt, updatedAt, id, owner, ...data } = postData;
-		const updatePost = await postRepository.updateById(postId, data);
+
+		const updatePost = await postRepository.updateById(Object.assign(post, data));
 
 		return updatePost;
 	}

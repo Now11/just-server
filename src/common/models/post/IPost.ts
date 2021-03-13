@@ -1,4 +1,5 @@
 import { IUser } from '../user';
+import { ITag } from '../tag';
 
 export interface IPost {
 	title: string;
@@ -8,4 +9,5 @@ export interface IPost {
 	updatedAt: Date;
 	owner: IUser;
 	id: number;
+	tags: ITag[];
 }
