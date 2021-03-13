@@ -6,7 +6,7 @@ import { AuthController } from '../../src/controllers';
 
 const chance = new Chance();
 
-xdescribe('Suite - /auth routes', () => {
+describe('Suite - /auth routes', () => {
 	let connection: any;
 	before(async () => {
 		connection = await dbConnect();
