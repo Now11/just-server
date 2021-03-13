@@ -1,7 +1,9 @@
 import got, { Got, Response, OptionsOfJSONResponseBody } from 'got';
 import { Methods } from '../common/enums/methods';
 import { IGetArgs, IDeleteArgs, IPostArgs, IPutArgs } from '../common/models';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 class HttpRequest {
 	private readonly gotInstance: Got;
 	constructor(url: string) {
@@ -43,5 +45,4 @@ class HttpRequest {
 	}
 }
 
-//TO DO: Make possible to change
-export default new HttpRequest(`http://localhost:3001/api`);
+export default new HttpRequest(`http://localhost:${process.env.APP_PORT}/api`);
