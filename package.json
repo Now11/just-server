@@ -8,7 +8,7 @@
         "drop": "node_modules/.bin/ts-node node_modules/typeorm/cli.js schema:drop",
         "typeorm": "node_modules/.bin/ts-node node_modules/typeorm/cli.js",
         "seed": "node_modules/.bin/ts-node src/data/seeders",
-        "test": "mocha ./__test__/specs/**/*.spec.ts --require ts-node/register --timeout 10000"
+        "test": "mocha -r ts-node/register --require ./__test__/src/hooks/before.ts --config ./.mocharc.json"
     },
     "author": "lightnow22@gmail.com",
     "license": "ISC",

@@ -1,0 +1,7 @@
+{
+    "diff": true,
+    "timeout": "60000",
+    "recursive": [
+        "./__test__/specs/**/*.spec.ts"
+    ]
+}
