@@ -43,4 +43,5 @@ class HttpRequest {
 	}
 }
 
-export default new HttpRequest(`http://localhost:${process.env.APP_PORT}/api`);
+//TO DO: Make possible to change
+export default new HttpRequest(`http://localhost:3001/api`);

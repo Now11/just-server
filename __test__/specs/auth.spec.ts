@@ -1,20 +1,13 @@
 import { expect } from 'chai';
 import Chance from 'chance';
-import { dbConnect } from '../../src/db';
 import { ApiClient } from '../src/controllers';
-import { AuthController } from '../../src/controllers';
 
 const chance = new Chance();
 
 describe('Suite - /auth routes', () => {
-	let connection: any;
-	before(async () => {
-		connection = await dbConnect();
-	});
+	before(async () => {});
 
-	after(async () => {
-		connection.close();
-	});
+	after(async () => {});
 
 	it('[POST] /register - reqiester user with correct email', async () => {
 		const user = {
@@ -45,9 +38,10 @@ describe('Suite - /auth routes', () => {
 			lastName: 'TestUser'
 		};
 
-		await new AuthController().register(user);
-
 		const apiClient = ApiClient.unauthorized();
+
+		await apiClient.user.register(user);
+
 		const { body, statusCode } = await apiClient.user.login({ email: user.email, password: user.password });
 
 		expect(statusCode).to.eql(200);
